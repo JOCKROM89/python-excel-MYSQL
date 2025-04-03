@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk
 from update import update
 from check import check
+from tkinter import messagebox
 
 class App(tk.Tk):
     def __init__(self):
@@ -62,8 +63,11 @@ class Page1(tk.Frame):
 
     def query(self):
         query = self.entry1.get()
-        rows = check(query)
-        self.controller.show_page2(rows)  # Load data into Page2
+        if len(query)<= 0:
+            messagebox.showwarning("输入错误", "请输入文件地址")
+        else:
+            rows = check(query)
+            self.controller.show_page2(rows)  # Load data into Page2
 
 
 class Page2(tk.Frame):
@@ -101,17 +105,12 @@ class Page3(tk.Frame):
         self.controller = controller
         
         
-        label3 = tk.Label(self, text="请输入上月数据库文件地址：")
+        label3 = tk.Label(self, text="请输入需要更新的数据库文件地址：")
         label3.grid(row=0, column=0, padx=40, pady=(50,20))
 
         self.entry2 = tk.Entry(self, width=30)  # 设置输入框宽度
         self.entry2.grid(row=0, column=1,pady=(32,10))
 
-        label2 = tk.Label(self, text="请输入当月数据库文件地址：")
-        label2.grid(row=1, column=0, padx=40, pady=(20,30))
-
-        self.entry3 = tk.Entry(self, width=30)  # 设置输入框宽度
-        self.entry3.grid(row=1, column=1, pady=(0,10))
 
         butn=tk.Button(self,text='更新',width=16,command=self.update)
         butn.grid(row=2,column=0,padx= 160,pady=20, columnspan=2, sticky='e' )
@@ -119,9 +118,11 @@ class Page3(tk.Frame):
 
     def update(self):
         query2 = self.entry2.get()
-        query3 = self.entry3.get()
-        change = update(query2, query3)
-        return change
+        if len(query2)<= 0:
+            messagebox.showwarning("输入错误", "请输入文件地址")
+        else:
+            change = update(query2)
+            return change
         # 处理更新的逻辑，例如显示状态等
 
 
