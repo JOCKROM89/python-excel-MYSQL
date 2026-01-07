@@ -20,7 +20,6 @@ def check(file):
     for row in df_li:
         NO.append(row[0])
         price.append(row[1])  
-
     cursor.execute(sql.format(tuple(NO),tuple(price)))
     
     results = cursor.fetchall()
